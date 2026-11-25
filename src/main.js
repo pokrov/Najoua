@@ -84,7 +84,7 @@ if (lightbox) {
 
 const form = document.getElementById('booking-form');
 if (form) {
-  const { name, reply, eventType, date, venue, website, draft } = form.elements;
+  const { name, reply, email, eventType, date, venue, website, draft } = form.elements;
   const status = form.querySelector('.form-status');
   const today = new Date();
   date.min = [today.getFullYear(), today.getMonth() + 1, today.getDate()]
@@ -96,7 +96,7 @@ if (form) {
     const contact = reply.value.trim();
     const isPhone = /^\+?[\d\s().-]+$/.test(contact) && contact.replace(/\D/g, '').length >= 7
       && contact.replace(/\D/g, '').length <= 15;
-    reply.setCustomValidity(!reply.value || isPhone || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact) ? '' : 'Indiquez un e-mail ou un numéro de téléphone valide.');
+    reply.setCustomValidity(!reply.value || isPhone ? '' : 'Indiquez un numéro de téléphone ou WhatsApp valide.');
   }
 
   form.addEventListener('input', () => {
@@ -111,13 +111,14 @@ if (form) {
     validate();
     if (!form.reportValidity()) return;
 
-    const subject = `Demande de reportage · ${eventType.value.trim()}`;
+    const subject = `Demande de reportage · ${eventType.selectedOptions[0].textContent}`;
     const preferredDate = date.value ? new Intl.DateTimeFormat('fr', { dateStyle: 'long', timeZone: 'UTC' })
       .format(new Date(date.value)) : '';
     const message = form.elements.message.value.trim();
     const body = [
       `Bonjour ${site.firstName},`, '', subject, `Nom : ${name.value.trim()}`,
-      `Coordonnées : ${reply.value.trim()}`,
+      `Téléphone : ${reply.value.trim()}`,
+      ...(email.value.trim() ? [`E-mail : ${email.value.trim()}`] : []),
       ...(preferredDate ? [`Date de l’événement : ${preferredDate}`] : []),
       ...(venue.value.trim() ? [`Ville ou lieu : ${venue.value.trim()}`] : []),
       ...(message ? ['', message] : []),

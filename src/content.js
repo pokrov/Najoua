@@ -19,8 +19,8 @@ export const site = {
     galleryPrivacy: '',
   },
   hero: {
-    image: 'safariFamille',
-    shareImage: '/photos/anniversaire-safari-famille-760.webp',
+    image: 'noirEtOr',
+    shareImage: '/photos/anniversaire-noir-et-or-partage.jpg',
     description: 'Des images qui racontent votre événement, des grands moments aux détails que vous n’avez pas vus.',
   },
   services: {
@@ -30,7 +30,8 @@ export const site = {
   },
   about: {
     image: 'najoua',
-    intro: 'Pendant votre événement, je photographie aussi ce qui se passe autour du moment principal : un regard, un geste, une réaction dans la salle.',
+    intro: 'Najoua Bouziane est photographe événementielle. Elle raconte les célébrations en images, à travers les regards, les gestes et les détails qui donnent à chaque événement son caractère.',
+    approach: 'Dans la sélection présentée ici, les portraits et les mises en scène côtoient les instants partagés.',
   },
   contactIntro: 'Indiquez la date, le lieu et les moments que vous aimeriez retrouver en images.',
 };
@@ -91,23 +92,21 @@ export const photos = {
   },
 };
 
-export const signature = ['turquoise', 'terracotta', 'noirEtOr', 'fleurs'];
+export const signature = ['safariFamille', 'terracotta', 'gateauNoir', 'fleurs'];
 
 export const reportages = [
   { id: 'safari', title: 'Un anniversaire safari', images: ['safariFamille', 'safari'] },
 ];
 
 export const selection = [
-  'anniversaireRose', 'birthday', 'blue',
-  'gateauNoir', 'accessoiresRoses',
+  'anniversaireRose', 'noirEtOr', 'birthday', 'blue', 'turquoise',
+  'terracotta', 'gateauNoir', 'fleurs', 'accessoiresRoses',
 ];
 
-export const presentation = {
-  hero: { safariFamille: ['full', '50% 75%'] },
-  about: { najoua: ['print', '50% 50%'] },
-  signature: { turquoise: ['print', '50% 93%'], terracotta: ['full', '50% 55%'], noirEtOr: ['print', '50% 100%'], fleurs: ['line', '50% 48%'] },
-  portfolio: { safariFamille: ['full', '50% 80%'], safari: ['full', '50% 90%'], anniversaireRose: ['line', '50% 55%'], birthday: ['full', '50% 68%'], blue: ['line', '65% 50%'], gateauNoir: ['print', '50% 50%'], accessoiresRoses: ['line', '50% 42%'] },
-};
+export const eventTypes = [
+  { id: 'anniversaire', title: 'Anniversaire' },
+  { id: 'autre', title: 'Autre' },
+];
 
 export const faq = [
   ['Comment présenter mon projet ?', 'Indiquez le type d’événement, la date si elle est fixée, la ville ou le lieu et les moments que vous souhaitez photographier.'],

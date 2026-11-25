@@ -319,13 +319,8 @@ task(null, async () => {
   try {
     await loadStudio();
   } catch (error) {
-    if (error.status && error.status < 500 && error.status !== 404) throw error;
+    if (error.status !== 503 || error.message !== 'L’espace galeries est en cours de configuration.') throw error;
     const { openDemo } = await import('./demo.js');
-    const discover = select('#discover-demo');
-    discover.hidden = false;
-    discover.onclick = () => {
-      discover.hidden = true;
-      openDemo();
-    };
+    openDemo();
   }
 });

@@ -1,4 +1,4 @@
-import { presentation, faq, photos, reportages, selection, signature, site } from './content.js';
+import { eventTypes, faq, photos, reportages, selection, signature, site } from './content.js';
 
 const navigation = [
   ['portfolio', 'Reportages'], ['a-propos', 'À propos'], ['seances', 'Prestations'], ['faq', 'FAQ'],
@@ -8,11 +8,10 @@ const escape = (value) => String(value).replace(/[&<>"']/g, (character) => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
 })[character]);
 
-function image(key, sizes, eager = false, placement = 'portfolio') {
+function image(key, sizes, eager = false) {
   const { file, width, height, alt } = photos[key];
   const sources = [420, 760, width].map((size) => `/photos/${file}-${size}.webp ${size}w`).join(', ');
-  const [frame, focus] = presentation[placement]?.[key] || ['full', '50% 50%'];
-  return `<img class="plate plate-${frame}" style="--focus:${focus}" src="/photos/${file}-${width}.webp" srcset="${sources}" sizes="${sizes}" width="${width}" height="${height}" alt="${escape(alt)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'}>`;
+  return `<img src="/photos/${file}-${width}.webp" srcset="${sources}" sizes="${sizes}" width="${width}" height="${height}" alt="${escape(alt)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'}>`;
 }
 
 function brand(prefix) {
@@ -46,7 +45,7 @@ function footer(prefix) {
         <a href="${prefix}#reservation">Contact</a>
         <a href="/galerie/">Galerie privée</a>
       </nav>
-      ${site.instagram ? `<a href="${escape(site.instagram)}" target="_blank" rel="noopener noreferrer">Voir sur Instagram</a>` : ''}
+      ${site.instagram ? `<a href="${escape(site.instagram)}" target="_blank" rel="noopener noreferrer">Instagram</a>` : ''}
     </div>
     <div class="footer-bottom wrap">
       <span>© ${new Date().getUTCFullYear()} ${escape(site.name)}</span>
@@ -61,12 +60,12 @@ function hero() {
       <h1 id="hero-title">${escape(site.name)} <em>— ${escape(site.role)}</em></h1>
       <p class="hero-description">${escape(site.hero.description)}</p>
       <div class="hero-actions">
-        <a class="text-link" href="#portfolio">Découvrir les reportages</a>
-        <a class="button button-solid" href="#reservation">Parler de mon événement</a>
+        <a class="button button-solid" href="#portfolio">Découvrir les reportages</a>
+        <a class="text-link" href="#reservation">Parler de mon événement</a>
       </div>
     </div>
     <figure class="hero-figure">
-      ${image(site.hero.image, '(max-width: 700px) 90vw, (max-width: 1300px) 49vw, 640px', true, 'hero')}
+      ${image(site.hero.image, '(max-width: 700px) 90vw, (max-width: 1300px) 49vw, 640px', true)}
       <figcaption>${escape(photos[site.hero.image].caption)}</figcaption>
     </figure>
   </section>`;
@@ -82,7 +81,7 @@ function services() {
       <div class="services-copy">
         <p>${escape(site.services.description)}</p>
         <p class="service-price">${escape(site.services.price)}</p>
-        <a class="button button-solid" href="#reservation">Parler de mon événement</a>
+        <a class="text-link" href="#reservation">Parler de mon événement</a>
       </div>
     </div>
   </section>`;
@@ -92,7 +91,7 @@ function galleryPhoto(key, group, sizes, captionClass = '') {
   const { file, width, caption } = photos[key];
   return `<figure class="gallery-item">
     <a class="gallery-link" href="/photos/${file}-${width}.webp" data-gallery="${escape(group)}" aria-label="Agrandir la photo · ${escape(caption)}">
-      ${image(key, sizes, false, group === 'signature' ? 'signature' : 'portfolio')}
+      ${image(key, sizes)}
       <span class="gallery-icon" aria-hidden="true">+</span>
     </a>
     <figcaption${captionClass ? ` class="${captionClass}"` : ''}>${escape(caption)}</figcaption>
@@ -109,7 +108,7 @@ function composition() {
   return `<section class="signature section" aria-labelledby="signature-title">
     <div class="wrap">
       <div class="signature-heading">
-        <h2 id="signature-title">Sélection <em>de photographies</em></h2>
+        <h2 id="signature-title">Sélection <em>de travaux</em></h2>
         <a class="text-link" href="#portfolio">Voir les reportages</a>
       </div>
       <div class="signature-grid">
@@ -123,7 +122,7 @@ function gallery() {
   const reportageSizes = '(max-width: 700px) 46vw, (max-width: 1400px) 42vw, 510px';
   const selectionSizes = '(max-width: 700px) 46vw, (max-width: 1400px) 23vw, 300px';
   return `<section class="portfolio section wrap" id="portfolio" aria-labelledby="portfolio-title">
-    <h2 id="portfolio-title">Reportage à découvrir</h2>
+    <h2 id="portfolio-title">Reportages</h2>
     ${reportages.map(({ id, title, images }) => `<section class="reportage" aria-labelledby="reportage-${escape(id)}">
       <h3 id="reportage-${escape(id)}">${escape(title)}</h3>
       <div class="reportage-photos">
@@ -131,7 +130,7 @@ function gallery() {
       </div>
     </section>`).join('')}
     ${selection.length ? `<section class="reportage" aria-labelledby="selection-title">
-      <h3 id="selection-title">Sélection de photographies</h3>
+      <h3 id="selection-title">Autres images de la sélection</h3>
       <div class="selection-photos">
         ${selection.map((key) => galleryPhoto(key, 'selection', selectionSizes)).join('')}
       </div>
@@ -153,12 +152,13 @@ function gallery() {
 function about() {
   return `<section class="about section" id="a-propos" aria-labelledby="about-title">
     <div class="about-inner wrap">
-      <figure>${image(site.about.image, '(max-width: 700px) 90vw, 40vw', false, 'about')}</figure>
+      <figure>${image(site.about.image, '(max-width: 700px) 90vw, 40vw')}</figure>
       <div class="about-copy">
         <p class="kicker">À propos</p>
-        <h2 id="about-title">Derrière l’objectif,<br><span>${escape(site.name)}</span></h2>
+        <h2 id="about-title">Derrière l’objectif,<br><span>${escape(site.firstName)}.</span></h2>
         <p>${escape(site.about.intro)}</p>
-        ${site.instagram ? `<a class="text-link" href="${escape(site.instagram)}" target="_blank" rel="noopener noreferrer">Voir sur Instagram</a>` : ''}
+        <p>${escape(site.about.approach)}</p>
+        ${site.instagram ? `<a class="text-link" href="${escape(site.instagram)}" target="_blank" rel="noopener noreferrer">Voir la publication Instagram</a>` : ''}
       </div>
     </div>
   </section>`;
@@ -188,7 +188,7 @@ function booking() {
         <h2 id="booking-title">Parlons de<br><em>votre événement</em></h2>
         <p>${escape(site.contactIntro)}</p>
         <div class="direct-links">
-          ${site.serviceArea || site.city ? `<p>${escape([site.city, site.serviceArea].filter(Boolean).join(' · '))}</p>` : ''}
+          ${site.serviceArea || site.city ? `<p>${escape(site.serviceArea || site.city)}</p>` : ''}
           ${site.phone ? `<a class="text-link" href="tel:${escape(site.phone.replace(/[^+\d]/g, ''))}">${escape(site.phone)}</a>` : ''}
           ${site.hours ? `<p>${escape(site.hours)}</p>` : ''}
           ${site.email ? `<a class="text-link" href="mailto:${escape(site.email)}">${escape(site.email)}</a>` : ''}
@@ -197,17 +197,27 @@ function booking() {
       </div>
       <form id="booking-form" aria-describedby="booking-note" hidden>
         <div class="form-grid">
-          <label class="form-wide">Quel événement préparez-vous ? *
-            <input name="eventType" required maxlength="160">
+          <label for="name">Votre nom <span aria-hidden="true">*</span>
+            <input id="name" name="name" autocomplete="name" required maxlength="100">
           </label>
-          <label for="date">Date souhaitée (facultative)
+          <label for="reply">Téléphone ou WhatsApp <span aria-hidden="true">*</span>
+            <input id="reply" name="reply" type="tel" autocomplete="tel" required maxlength="32">
+          </label>
+          <label for="email">Adresse e-mail
+            <input id="email" name="email" type="email" autocomplete="email" maxlength="150">
+          </label>
+          <label for="event-type">Type d’événement <span aria-hidden="true">*</span>
+            <select id="event-type" name="eventType" required>
+              <option value="">Choisir un type d’événement</option>
+              ${eventTypes.map(({ id, title }) => `<option value="${escape(id)}">${escape(title)}</option>`).join('')}
+            </select>
+          </label>
+          <label for="date">Date de l’événement
             <input id="date" name="date" type="date">
           </label>
-          <label for="venue">Ville ou lieu
+          <label class="form-wide" for="venue">Ville ou lieu
             <input id="venue" name="venue" maxlength="160" placeholder="Ville envisagée ou nom du lieu">
           </label>
-          <label>Prénom *<input name="name" autocomplete="given-name" required maxlength="100"></label>
-          <label>E-mail ou téléphone *<input name="reply" required maxlength="150"></label>
           <label class="form-wide" for="message">Quelques mots sur votre projet
             <textarea id="message" name="message" rows="4" maxlength="1200" placeholder="Le déroulement prévu et les moments à photographier…"></textarea>
           </label>
@@ -219,7 +229,7 @@ function booking() {
           ? 'Les champs marqués d’un astérisque sont obligatoires. Vérifiez le message dans votre application avant de l’envoyer.'
           : 'L’envoi en ligne sera disponible dès que les coordonnées de Najoua seront renseignées. Vous pouvez préparer et copier votre demande en attendant.'}</p>
         <div class="form-actions">
-          ${site.whatsapp ? '<button class="button button-solid" name="channel" value="whatsapp">Continuer sur WhatsApp</button>' : ''}
+          ${site.whatsapp ? '<button class="button button-solid" name="channel" value="whatsapp">Ouvrir WhatsApp</button>' : ''}
           ${site.email ? '<button class="button button-solid" name="channel" value="email">Ouvrir l’e-mail</button>' : ''}
           ${hasContact ? '' : '<button class="button button-solid" name="channel" value="copy">Copier ma demande</button>'}
         </div>
