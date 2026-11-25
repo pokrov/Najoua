@@ -315,4 +315,12 @@ select('#preview-gallery').onclick = () => task(select('#preview-gallery'), asyn
   preview.focus();
 });
 
-task(null, loadStudio);
+task(null, async () => {
+  try {
+    await loadStudio();
+  } catch (error) {
+    if (error.status !== 503 || error.message !== 'L’espace galeries est en cours de configuration.') throw error;
+    const { openDemo } = await import('./demo.js');
+    openDemo();
+  }
+});

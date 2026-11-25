@@ -38,3 +38,9 @@
 @media (max-width: 740px) {
   .studio-grid { grid-template-columns: 1fr; }
 }
+
+#demo-banner { position: sticky; top: 0; z-index: 3; background: var(--ink); color: var(--paper); padding: .65rem max(1rem, calc((100% - 74rem) / 2)); }
+#demo-banner small { display: block; }
+.demo-media { display: flex; flex-wrap: wrap; gap: 1rem; }
+.demo-media figure { width: min(14rem, 100%); }
+.demo-media img, .demo-media video { width: 100%; }
