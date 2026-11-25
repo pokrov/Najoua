@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Galerie privée | Najoua Bouziane</title>
+  <script type="module" src="/src/delivery/gallery.js"></script>
+</head>
+<body>
+  <header class="delivery-header">
+    <a class="brand" href="/"><span>Najoua <i>Bouziane</i></span><small>Photographe événementielle</small></a>
+  </header>
+  <main class="delivery-main" id="main">
+    <h1 id="heading">Votre <em>galerie privée.</em></h1>
+    <p id="status" class="delivery-status" role="status">Chargement…</p>
+    <form class="delivery-panel narrow" id="unlock" hidden>
+      <p>Saisissez le code reçu de Najoua pour ouvrir votre galerie.</p>
+      <label>Code d’accès <input type="password" name="code" required minlength="8" maxlength="64" autocomplete="off"></label>
+      <button class="button button-solid">Ouvrir ma galerie</button>
+    </form>
+    <section id="gallery" hidden></section>
+    <noscript><p>Activez JavaScript pour accéder à votre galerie privée.</p></noscript>
+  </main>
+</body>
+</html>

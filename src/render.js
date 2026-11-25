@@ -1,7 +1,7 @@
-import { faq, photos, portfolio, sessions, site } from './content.js';
+import { eventTypes, faq, photos, reportages, selection, signature, site } from './content.js';
 
 const navigation = [
-  ['seances', 'Séances'], ['portfolio', 'Portfolio'], ['a-propos', 'À propos'], ['faq', 'FAQ'],
+  ['portfolio', 'Reportages'], ['a-propos', 'À propos'], ['seances', 'Prestations'], ['faq', 'FAQ'],
 ];
 
 const escape = (value) => String(value).replace(/[&<>"']/g, (character) => ({
@@ -29,8 +29,9 @@ function header(prefix) {
       <button class="menu-toggle" type="button" aria-controls="navigation" aria-expanded="false">Menu</button>
       <nav id="navigation" class="navigation" aria-label="Navigation principale">
         ${navigation.map(([id, title]) => `<a href="${prefix}#${id}">${title}</a>`).join('')}
+        <a class="mobile-contact" href="${prefix}#reservation">Contact</a>
       </nav>
-      <a class="button header-book" href="${prefix}#reservation">Réserver</a>
+      <a class="button header-book" href="${prefix}#reservation">Contact</a>
     </div>
   </header>`;
 }
@@ -41,7 +42,8 @@ function footer(prefix) {
       ${brand(prefix)}
       <nav aria-label="Navigation de pied de page">
         ${navigation.slice(0, 3).map(([id, title]) => `<a href="${prefix}#${id}">${title}</a>`).join('')}
-        <a href="${prefix}#reservation">Réservation</a>
+        <a href="${prefix}#reservation">Contact</a>
+        <a href="/galerie/">Galerie privée</a>
       </nav>
       ${site.instagram ? `<a href="${escape(site.instagram)}" target="_blank" rel="noopener noreferrer">Instagram</a>` : ''}
     </div>
@@ -55,12 +57,11 @@ function footer(prefix) {
 function hero() {
   return `<section class="hero wrap" aria-labelledby="hero-title">
     <div class="hero-copy">
-      <p class="kicker">${escape(site.hero.kicker)}${site.city ? ` · ${escape(site.city)}` : ''}</p>
-      <h1 id="hero-title">${escape(site.hero.title[0])}<br><em>${escape(site.hero.title[1])}</em></h1>
+      <h1 id="hero-title">${escape(site.name)} <em>— ${escape(site.role)}</em></h1>
       <p class="hero-description">${escape(site.hero.description)}</p>
       <div class="hero-actions">
-        <a class="button button-solid" href="#reservation">Réserver une séance</a>
-        <a class="text-link" href="#portfolio">Voir le portfolio</a>
+        <a class="button button-solid" href="#portfolio">Découvrir les reportages</a>
+        <a class="text-link" href="#reservation">Parler de mon événement</a>
       </div>
     </div>
     <figure class="hero-figure">
@@ -71,49 +72,69 @@ function hero() {
 }
 
 function services() {
-  return `<section class="sessions section" id="seances" aria-labelledby="sessions-title">
-    <div class="wrap">
-      <div class="section-intro">
-        <p class="kicker">Séances photo</p>
-        <h2 id="sessions-title">À chacun <em>son décor.</em></h2>
-        <p>${escape(site.sessionsIntro)}</p>
+  return `<section class="services section" id="seances" aria-labelledby="services-title">
+    <div class="services-inner wrap">
+      <div>
+        <p class="kicker">Prestations</p>
+        <h2 id="services-title">${escape(site.services.title)}</h2>
       </div>
-      <div class="session-grid">
-        ${sessions.map(({ id, title, image: key, description, price }) => `<article class="session-card">
-          ${image(key, '(max-width: 700px) 90vw, (max-width: 1300px) 45vw, 590px')}
-          <div class="session-copy">
-            <h3>${escape(title)}</h3>
-            <p>${escape(description)}</p>
-            <div class="session-actions">
-              <span>${escape(price)}</span>
-              <a href="#reservation" class="text-link" data-session="${escape(id)}">Choisir cette séance<span class="sr-only"> · ${escape(title)}</span></a>
-            </div>
-          </div>
-        </article>`).join('')}
+      <div class="services-copy">
+        <p>${escape(site.services.description)}</p>
+        <p class="service-price">${escape(site.services.price)}</p>
+        <a class="text-link" href="#reservation">Parler de mon événement</a>
+      </div>
+    </div>
+  </section>`;
+}
+
+function galleryPhoto(key, group, sizes, captionClass = '') {
+  const { file, width, caption } = photos[key];
+  return `<figure class="gallery-item">
+    <a class="gallery-link" href="/photos/${file}-${width}.webp" data-gallery="${escape(group)}" aria-label="Agrandir la photo · ${escape(caption)}">
+      ${image(key, sizes)}
+      <span class="gallery-icon" aria-hidden="true">+</span>
+    </a>
+    <figcaption${captionClass ? ` class="${captionClass}"` : ''}>${escape(caption)}</figcaption>
+  </figure>`;
+}
+
+function composition() {
+  const widths = [
+    '(max-width: 700px) 94vw, (max-width: 1400px) 46vw, 620px',
+    '(max-width: 700px) 47vw, (max-width: 1400px) 24vw, 290px',
+    '(max-width: 700px) 42vw, (max-width: 1400px) 18vw, 205px',
+    '(max-width: 700px) 94vw, (max-width: 1400px) 42vw, 515px',
+  ];
+  return `<section class="signature section" aria-labelledby="signature-title">
+    <div class="wrap">
+      <div class="signature-heading">
+        <h2 id="signature-title">Sélection <em>de travaux</em></h2>
+        <a class="text-link" href="#portfolio">Voir les reportages</a>
+      </div>
+      <div class="signature-grid">
+        ${signature.map((key, index) => galleryPhoto(key, 'signature', widths[index], 'sr-only')).join('')}
       </div>
     </div>
   </section>`;
 }
 
 function gallery() {
+  const reportageSizes = '(max-width: 700px) 46vw, (max-width: 1400px) 42vw, 510px';
+  const selectionSizes = '(max-width: 700px) 46vw, (max-width: 1400px) 23vw, 300px';
   return `<section class="portfolio section wrap" id="portfolio" aria-labelledby="portfolio-title">
-    <div class="section-intro">
-      <p class="kicker">Portfolio</p>
-      <h2 id="portfolio-title">Quelques <em>histoires.</em></h2>
-      <p>${escape(site.portfolioIntro)}</p>
-    </div>
-    <div class="gallery">
-      ${portfolio.map((key, index) => {
-        const photo = photos[key];
-        return `<figure class="gallery-item">
-          <a class="gallery-link" href="/photos/${photo.file}-${photo.width}.webp" data-gallery="${index}" aria-label="Agrandir la photo · ${escape(photo.caption)}">
-            ${image(key, '(max-width: 700px) 90vw, (max-width: 1300px) 30vw, 400px')}
-            <span class="gallery-icon" aria-hidden="true">+</span>
-          </a>
-          <figcaption>${escape(photo.caption)}</figcaption>
-        </figure>`;
-      }).join('')}
-    </div>
+    <h2 id="portfolio-title">Reportages</h2>
+    ${reportages.map(({ id, title, images }) => `<section class="reportage" aria-labelledby="reportage-${escape(id)}">
+      <h3 id="reportage-${escape(id)}">${escape(title)}</h3>
+      <div class="reportage-photos">
+        ${images.map((key) => galleryPhoto(key, `reportage-${id}`, reportageSizes)).join('')}
+      </div>
+    </section>`).join('')}
+    ${selection.length ? `<section class="reportage" aria-labelledby="selection-title">
+      <h3 id="selection-title">Autres images de la sélection</h3>
+      <div class="selection-photos">
+        ${selection.map((key) => galleryPhoto(key, 'selection', selectionSizes)).join('')}
+      </div>
+    </section>` : ''}
     <dialog class="lightbox" aria-labelledby="lightbox-caption">
       <div class="lightbox-controls">
         <button type="button" data-previous aria-label="Photo précédente">‹</button>
@@ -134,7 +155,7 @@ function about() {
       <figure>${image(site.about.image, '(max-width: 700px) 90vw, 40vw')}</figure>
       <div class="about-copy">
         <p class="kicker">À propos</p>
-        <h2 id="about-title">Derrière l’objectif,<br><em>${escape(site.firstName)}.</em></h2>
+        <h2 id="about-title">Derrière l’objectif,<br><span>${escape(site.firstName)}.</span></h2>
         <p>${escape(site.about.intro)}</p>
         <p>${escape(site.about.approach)}</p>
         ${site.instagram ? `<a class="text-link" href="${escape(site.instagram)}" target="_blank" rel="noopener noreferrer">Voir la publication Instagram</a>` : ''}
@@ -147,7 +168,7 @@ function experience() {
   return `<section class="experience section wrap" id="faq" aria-labelledby="faq-title">
     <div class="section-intro">
       <p class="kicker">L’expérience</p>
-      <h2 id="faq-title">Avant <em>la séance.</em></h2>
+      <h2 id="faq-title">Préparer <em>votre événement</em></h2>
     </div>
     <div class="faq-list">
       ${faq.map(([question, answer]) => `<details>
@@ -163,11 +184,13 @@ function booking() {
   return `<section class="booking section" id="reservation" aria-labelledby="booking-title">
     <div class="booking-inner wrap">
       <div>
-        <p class="kicker">Réservation</p>
-        <h2 id="booking-title">Parlons de<br><em>votre séance.</em></h2>
+        <p class="kicker">Contact</p>
+        <h2 id="booking-title">Parlons de<br><em>votre événement</em></h2>
         <p>${escape(site.contactIntro)}</p>
         <div class="direct-links">
-          ${site.city ? `<p>${escape(site.city)}</p>` : ''}
+          ${site.serviceArea || site.city ? `<p>${escape(site.serviceArea || site.city)}</p>` : ''}
+          ${site.phone ? `<a class="text-link" href="tel:${escape(site.phone.replace(/[^+\d]/g, ''))}">${escape(site.phone)}</a>` : ''}
+          ${site.hours ? `<p>${escape(site.hours)}</p>` : ''}
           ${site.email ? `<a class="text-link" href="mailto:${escape(site.email)}">${escape(site.email)}</a>` : ''}
           ${site.whatsapp ? `<a class="text-link" href="https://wa.me/${escape(site.whatsapp)}">Contacter Najoua sur WhatsApp</a>` : ''}
         </div>
@@ -177,20 +200,26 @@ function booking() {
           <label for="name">Votre nom <span aria-hidden="true">*</span>
             <input id="name" name="name" autocomplete="name" required maxlength="100">
           </label>
-          <label for="reply">E-mail ou téléphone <span aria-hidden="true">*</span>
-            <input id="reply" name="reply" required maxlength="150">
+          <label for="reply">Téléphone ou WhatsApp <span aria-hidden="true">*</span>
+            <input id="reply" name="reply" type="tel" autocomplete="tel" required maxlength="32">
           </label>
-          <label for="session">Type de séance <span aria-hidden="true">*</span>
-            <select id="session" name="session" required>
-              <option value="">Choisir une séance</option>
-              ${sessions.map(({ id, title }) => `<option value="${escape(id)}">${escape(title)}</option>`).join('')}
+          <label for="email">Adresse e-mail
+            <input id="email" name="email" type="email" autocomplete="email" maxlength="150">
+          </label>
+          <label for="event-type">Type d’événement <span aria-hidden="true">*</span>
+            <select id="event-type" name="eventType" required>
+              <option value="">Choisir un type d’événement</option>
+              ${eventTypes.map(({ id, title }) => `<option value="${escape(id)}">${escape(title)}</option>`).join('')}
             </select>
           </label>
-          <label for="date">Date souhaitée
+          <label for="date">Date de l’événement
             <input id="date" name="date" type="date">
           </label>
-          <label class="form-wide" for="message">Votre message
-            <textarea id="message" name="message" rows="4" maxlength="1200" placeholder="Une occasion, un thème, une idée de décor…"></textarea>
+          <label class="form-wide" for="venue">Ville ou lieu
+            <input id="venue" name="venue" maxlength="160" placeholder="Ville envisagée ou nom du lieu">
+          </label>
+          <label class="form-wide" for="message">Quelques mots sur votre projet
+            <textarea id="message" name="message" rows="4" maxlength="1200" placeholder="Le déroulement prévu et les moments à photographier…"></textarea>
           </label>
           <div class="honeypot" aria-hidden="true">
             <label for="website">Site web</label><input id="website" name="website" tabindex="-1" autocomplete="off">
@@ -222,27 +251,29 @@ function legalPage() {
     <p>${escape(site.legal.publisher || `Site vitrine de ${site.name}. Les coordonnées de l’éditeur restent à renseigner.`)}</p>
     <h2>Hébergement</h2>
     <p>${escape(site.legal.hosting || 'Les informations sur l’hébergeur seront ajoutées avant la publication.')}</p>
-    <h2>Données de réservation</h2>
+    <h2>Données de contact</h2>
     <p>${escape(site.legal.privacyPolicy || 'Le formulaire prépare votre message dans votre navigateur. Le site ne conserve aucune demande sur un serveur. Si vous ouvrez un service de messagerie, vous choisissez d’y envoyer votre message.')}</p>
+    <h2>Galeries privées</h2>
+    <p>${escape(site.legal.galleryPrivacy || 'Les fichiers sont accessibles avec le code remis par le studio et jusqu’à la date indiquée dans la galerie. Les modalités de conservation et de traitement seront complétées avant l’ouverture du service.')}</p>
     <h2>Photographies</h2>
     <p>Les photographies présentées sont protégées. Toute réutilisation requiert l’autorisation des titulaires des droits.</p>
     <a class="text-link" href="/">Retour à l’accueil</a>
   </main>`;
 }
 
-function metadata(legal) {
-  const title = legal ? `Mentions légales et confidentialité | ${site.name}` : `${site.name} | ${site.specialty}${site.city ? ` à ${site.city}` : ''}`;
+function metadata(legal, origin) {
+  const title = legal ? `Mentions légales et confidentialité | ${site.name}` : `${site.name} — ${site.role}${site.city ? ` à ${site.city}` : ''}`;
   const description = legal ? `Informations sur l’édition du site de ${site.name}, les photographies et le formulaire de réservation.` : site.hero.description;
   const photo = photos[site.hero.image];
-  const photoPath = `/photos/${photo.file}-${photo.width}.webp`;
-  const pageUrl = site.url ? new URL(legal ? '/mentions-legales.html' : '/', site.url).href : '';
+  const photoPath = site.hero.shareImage;
+  const pageUrl = origin ? new URL(legal ? '/mentions-legales.html' : '/', origin).href : '';
   const structured = {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: site.name,
     jobTitle: site.role,
     knowsAbout: site.specialty,
-    ...(site.url && { url: site.url }),
+    ...(origin && { url: origin }),
     ...(site.city && { workLocation: { '@type': 'Place', name: site.city } }),
   };
   return `<title>${escape(title)}</title>
@@ -252,16 +283,21 @@ function metadata(legal) {
   <meta property="og:site_name" content="${escape(site.name)}">
   <meta property="og:title" content="${escape(title)}">
   <meta property="og:description" content="${escape(description)}">
+  <meta name="twitter:card" content="${pageUrl ? 'summary_large_image' : 'summary'}">
+  <meta name="twitter:title" content="${escape(title)}">
+  <meta name="twitter:description" content="${escape(description)}">
   ${pageUrl ? `<link rel="canonical" href="${escape(pageUrl)}">
   <meta property="og:url" content="${escape(pageUrl)}">
-  <meta property="og:image" content="${escape(new URL(photoPath, site.url).href)}">
-  <meta property="og:image:alt" content="${escape(photo.alt)}">` : ''}
+  <meta property="og:image" content="${escape(new URL(photoPath, origin).href)}">
+  <meta property="og:image:alt" content="${escape(photo.alt)}">
+  <meta name="twitter:image" content="${escape(new URL(photoPath, origin).href)}">
+  <meta name="twitter:image:alt" content="${escape(photo.alt)}">` : ''}
   ${legal ? '' : `<script type="application/ld+json">${JSON.stringify(structured).replaceAll('<', '\\u003c')}</script>`}`;
 }
 
-export function renderPage(html, legal) {
+export function renderPage(html, legal, origin = site.url) {
   const prefix = legal ? '/' : '';
-  const main = legal ? legalPage() : `<main id="main">${hero()}${services()}${gallery()}${about()}${experience()}${booking()}</main>`;
-  return html.replace('<!-- metadata -->', () => metadata(legal))
+  const main = legal ? legalPage() : `<main id="main">${hero()}${composition()}${about()}${gallery()}${services()}${experience()}${booking()}</main>`;
+  return html.replace('<!-- metadata -->', () => metadata(legal, origin))
     .replace('<!-- content -->', () => `${header(prefix)}${main}${footer(prefix)}`);
 }

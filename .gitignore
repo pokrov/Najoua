@@ -1,3 +1,12 @@
 node_modules/
 dist/
 .DS_Store
+.env
+.env.*
+!.env.example
+.netlify/
+supabase/.branches/
+supabase/.temp/
+supabase/.cache/
+
+photo-originals/

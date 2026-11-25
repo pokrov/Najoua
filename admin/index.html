@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Administration des galeries | Najoua Bouziane</title>
+  <script type="module" src="/src/delivery/admin.js"></script>
+</head>
+<body>
+  <header class="delivery-header">
+    <a class="brand" href="/"><span>Najoua <i>Bouziane</i></span><small>Photographe événementielle</small></a>
+    <button class="button" id="logout" hidden>Se déconnecter</button>
+  </header>
+  <main class="delivery-main" id="main">
+    <h1>Administration des <em>galeries.</em></h1>
+    <p id="status" class="delivery-status" role="status">Chargement…</p>
+    <form id="login" class="delivery-panel narrow" hidden>
+      <h2>Connexion</h2>
+      <label>Adresse e-mail <input type="email" name="email" autocomplete="username" required maxlength="250"></label>
+      <label>Mot de passe <input type="password" name="password" autocomplete="current-password" required maxlength="256"></label>
+      <button class="button button-solid">Se connecter</button>
+    </form>
+    <div id="studio" hidden>
+      <div class="studio-grid">
+        <section class="delivery-panel">
+          <h2>Galeries</h2>
+          <p id="usage" class="delivery-muted"></p>
+          <form id="search" class="inline-form">
+            <label>Rechercher <input type="search" name="query" maxlength="100"></label>
+            <button class="button">Rechercher</button>
+          </form>
+          <ul class="delivery-list" id="gallery-list"></ul>
+          <div class="delivery-actions">
+            <button class="button" id="previous">Précédent</button>
+            <button class="button" id="next">Suivant</button>
+          </div>
+        </section>
+        <section class="delivery-panel">
+          <div class="delivery-heading">
+            <h2 id="editor-title">Nouvelle galerie</h2>
+            <button class="button" id="new-gallery" hidden>Nouvelle galerie</button>
+          </div>
+          <form id="editor">
+            <div class="form-grid">
+              <label>Client ou famille <input name="client_name" required maxlength="120"></label>
+              <label>Titre de la séance <input name="title" required maxlength="140"></label>
+              <label>Date de la séance <input name="session_date" type="date" required></label>
+              <label>Expiration <input name="expires_at" type="datetime-local" required></label>
+              <label class="form-wide">Message au client <textarea name="message" rows="3" maxlength="1800"></textarea></label>
+              <label class="form-wide">Code d’accès <input name="code" type="text" autocomplete="off" pattern="[a-zA-Z0-9\-]{8,64}" maxlength="64" aria-describedby="code-help"></label>
+            </div>
+            <p id="code-help" class="delivery-muted">Laissez vide pour générer un code.</p>
+            <label id="disabled-label" class="inline-check" hidden><input name="disabled" type="checkbox"> Désactiver la galerie</label>
+            <button class="button button-solid" id="save">Créer la galerie</button>
+          </form>
+          <div id="share" class="delivery-share" hidden>
+            <label>Lien client <input id="share-url" readonly></label>
+            <label id="share-code-label" hidden>Code à transmettre <input id="share-code" readonly></label>
+            <p id="share-hint" class="delivery-muted"></p>
+            <div class="delivery-actions">
+              <button class="button" id="copy-link">Copier le lien</button>
+              <button class="button" id="copy-code" hidden>Copier le code</button>
+              <button class="button" id="rotate">Générer un nouveau code</button>
+            </div>
+          </div>
+        </section>
+      </div>
+      <section class="delivery-panel" id="media-panel" hidden>
+        <h2>Fichiers de la galerie</h2>
+        <p id="upload-limits" class="delivery-muted"></p>
+        <form id="upload" class="inline-form">
+          <label>Photos et vidéos <input type="file" name="files" accept=".jpg,.jpeg,.png,.webp,.mp4,.webm" multiple required></label>
+          <button class="button button-solid">Téléverser</button>
+        </form>
+        <ul id="upload-progress" class="delivery-list" aria-label="Progression des téléversements"></ul>
+        <ul id="file-list" class="delivery-list"></ul>
+        <div class="delivery-actions">
+          <button class="button" id="preview-gallery">Voir comme le client</button>
+          <button class="button danger" id="purge">Supprimer définitivement la galerie</button>
+        </div>
+      </section>
+      <section class="delivery-panel" id="admin-preview" hidden tabindex="-1"></section>
+    </div>
+  </main>
+</body>
+</html>

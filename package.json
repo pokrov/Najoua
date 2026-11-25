@@ -5,12 +5,15 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --env-file-if-exists=.env --test"
   },
   "type": "module",
   "dependencies": {
-    "@fontsource-variable/dm-sans": "^5.3.0",
-    "@fontsource-variable/playfair-display": "^5.3.0"
+    "@fontsource/baskervville": "^5.3.0",
+    "@fontsource/instrument-sans": "^5.3.0",
+    "@supabase/supabase-js": "^2.119.2",
+    "fflate": "^0.8.3"
   },
   "devDependencies": {
     "vite": "^8.3.8"

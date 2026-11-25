@@ -2,9 +2,12 @@ export const site = {
   name: 'Najoua Bouziane',
   firstName: 'Najoua',
   lastName: 'Bouziane',
-  role: 'Artiste photographe',
-  specialty: 'Photographie d’enfants et d’anniversaires',
+  role: 'Photographe événementielle',
+  specialty: 'Photographie événementielle',
   city: '',
+  serviceArea: '',
+  phone: '',
+  hours: '',
   url: '',
   instagram: 'https://www.instagram.com/p/DVpHLxpiJmm/',
   email: '',
@@ -13,21 +16,24 @@ export const site = {
     publisher: '',
     hosting: '',
     privacyPolicy: '',
+    galleryPrivacy: '',
   },
   hero: {
-    image: 'safari',
-    kicker: 'Photographie d’enfants',
-    title: ['L’enfance,', 'en grand.'],
-    description: 'Des portraits d’enfants et des anniversaires en images, dans des décors où l’imaginaire prend toute sa place.',
+    image: 'noirEtOr',
+    shareImage: '/photos/anniversaire-noir-et-or-partage.jpg',
+    description: 'Des images qui racontent votre événement, des grands moments aux détails que vous n’avez pas vus.',
   },
-  sessionsIntro: 'Un portrait pour saisir une expression, un anniversaire pour marquer une étape. À chaque séance, son univers.',
-  portfolioIntro: 'D’un safari aux tons sauge à un château lilas, quelques scènes photographiées par Najoua.',
+  services: {
+    title: 'Reportage photographique',
+    description: 'Parlons de votre événement, du lieu et des moments que vous souhaitez garder en images. Najoua vous proposera un reportage adapté à votre projet.',
+    price: 'Tarif sur demande',
+  },
   about: {
     image: 'najoua',
-    intro: 'Najoua Bouziane est artiste photographe. Dans ses portraits d’enfants, les décors racontent une histoire et laissent place aux gestes spontanés, aux regards et aux éclats de rire.',
-    approach: 'Ballons, couleurs et accessoires composent des univers ludiques où chaque enfant a la place d’être lui-même.',
+    intro: 'Najoua Bouziane est photographe événementielle. Elle raconte les célébrations en images, à travers les regards, les gestes et les détails qui donnent à chaque événement son caractère.',
+    approach: 'Dans la sélection présentée ici, les portraits et les mises en scène côtoient les instants partagés.',
   },
-  contactIntro: 'Parlez-moi de l’occasion, du décor qui vous plaît et de la période que vous avez en tête.',
+  contactIntro: 'Indiquez la date, le lieu et les moments que vous aimeriez retrouver en images.',
 };
 
 export const photos = {
@@ -51,26 +57,60 @@ export const photos = {
     alt: 'Najoua Bouziane en voile taupe dans un studio photo, derrière une pancarte manuscrite',
     caption: 'Najoua au studio',
   },
+  turquoise: {
+    file: 'portrait-decor-turquoise', width: 1440, height: 1920,
+    alt: 'Une femme et une enfant en noir dans un décor turquoise', caption: 'Duo en bleu turquoise',
+  },
+  safariFamille: {
+    file: 'anniversaire-safari-famille', width: 1440, height: 1920,
+    alt: 'Une femme et deux enfants autour d’un gâteau dans un décor safari', caption: 'Autour du gâteau safari',
+  },
+  accessoiresRoses: {
+    file: 'portrait-accessoires-roses', width: 1440, height: 1920,
+    alt: 'Une femme en veste noire tient une coupe remplie de brosses roses', caption: 'Portrait aux accessoires roses',
+  },
+  terracotta: {
+    file: 'portrait-terracotta', width: 1440, height: 1920,
+    alt: 'Une femme en tulle terracotta pose les mains sur son ventre', caption: 'Portrait en terracotta',
+  },
+  gateauNoir: {
+    file: 'portrait-gateau-noir', width: 1170, height: 1170,
+    alt: 'Une femme en robe noire regarde le gâteau qu’elle tient à la main', caption: 'Portrait au gâteau',
+  },
+  anniversaireRose: {
+    file: 'anniversaire-rose', width: 1440, height: 1920,
+    alt: 'Une femme et une enfant en rose près d’un gâteau d’anniversaire', caption: 'Un premier anniversaire en rose',
+  },
+  fleurs: {
+    file: 'portrait-bebe-fleuri', width: 1440, height: 961,
+    alt: 'Un nouveau-né endormi au milieu de fleurs et de papillons', caption: 'Un portrait parmi les fleurs',
+  },
+  noirEtOr: {
+    file: 'anniversaire-noir-et-or', width: 1440, height: 1920,
+    alt: 'Une femme en robe noire tient des ballons noirs et dorés à côté d’un gâteau d’anniversaire',
+    caption: 'Un anniversaire en noir et or',
+  },
 };
 
-export const portfolio = ['safari', 'birthday', 'blue'];
+export const signature = ['safariFamille', 'terracotta', 'gateauNoir', 'fleurs'];
 
-export const sessions = [
-  {
-    id: 'portraits', title: 'Portraits d’enfants', image: 'blue',
-    description: 'Des portraits de bébés et d’enfants dans un décor thématique. Les accessoires donnent le ton et les expressions de votre enfant font le reste.',
-    price: 'Tarif sur demande',
-  },
-  {
-    id: 'anniversaires', title: 'Anniversaires', image: 'birthday',
-    description: 'Une mise en scène autour du gâteau pour garder les bougies, les petits gestes et la joie de la fête en images.',
-    price: 'Tarif sur demande',
-  },
+export const reportages = [
+  { id: 'safari', title: 'Un anniversaire safari', images: ['safariFamille', 'safari'] },
+];
+
+export const selection = [
+  'anniversaireRose', 'noirEtOr', 'birthday', 'blue', 'turquoise',
+  'terracotta', 'gateauNoir', 'fleurs', 'accessoiresRoses',
+];
+
+export const eventTypes = [
+  { id: 'anniversaire', title: 'Anniversaire' },
+  { id: 'autre', title: 'Autre' },
 ];
 
 export const faq = [
-  ['Comment demander une séance ?', 'Choisissez un type de séance et indiquez la période qui vous convient. La date et les modalités sont à convenir avec Najoua.'],
-  ['Puis-je proposer un thème ?', 'Indiquez les couleurs, les personnages ou l’ambiance qui vous plaisent. Décrivez votre idée dans le message pour savoir si elle peut être réalisée.'],
-  ['Que comprend une séance ?', 'Demandez le détail de la prestation et un devis en précisant le type de séance. Vous pourrez aussi vérifier la durée, les accessoires et le nombre de photos livrées.'],
-  ['Que préparer pour le jour des photos ?', 'Précisez l’âge de votre enfant et renseignez-vous sur les tenues, les accessoires et, pour un anniversaire, le gâteau avant le rendez-vous.'],
+  ['Comment présenter mon projet ?', 'Indiquez le type d’événement, la date si elle est fixée, la ville ou le lieu et les moments que vous souhaitez photographier.'],
+  ['Comment demander un devis ?', 'Précisez le déroulement prévu et les moments à couvrir. La disponibilité, le tarif et les modalités sont à convenir avec Najoua.'],
+  ['Et si je n’ai pas encore choisi le lieu ?', 'Vous pouvez indiquer la ville envisagée ou préciser que le lieu reste à confirmer dans votre message.'],
+  ['Comment accéder à ma galerie ?', 'Ouvrez le lien transmis par Najoua et saisissez le code reçu pour consulter et télécharger les fichiers de votre événement.'],
 ];

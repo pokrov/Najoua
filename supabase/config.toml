@@ -1,0 +1,19 @@
+project_id = "najoua"
+
+[api]
+port = 54321
+
+[db]
+port = 54322
+major_version = 17
+
+[studio]
+port = 54323
+
+[auth]
+site_url = "http://127.0.0.1:5173"
+enable_signup = false
+jwt_expiry = 3600
+
+[storage]
+file_size_limit = "50MiB"
