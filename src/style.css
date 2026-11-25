@@ -214,3 +214,8 @@ img.plate { object-position: var(--focus) !important; }
 .selection-photos img { aspect-ratio: auto; }
 .signature-heading { padding-top: 1rem; border-top: 1px solid var(--graphite); }
 @media (max-width:700px) { .hero-figure img { width: 100%; max-height: none; } .hero-actions { margin-bottom: 1rem; } }
+
+.brand { align-items: start; }
+.brand-mark { display: block; width: clamp(7.5rem, 14vw, 11rem); height: 2.9rem; object-fit: contain; object-position: left center; }
+.header .brand-mark { width: clamp(8rem, 14vw, 11rem); }
+.footer .brand-mark, .delivery-header .brand-mark { width: 9rem; }
