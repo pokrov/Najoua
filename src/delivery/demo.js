@@ -28,6 +28,10 @@ export function openDemo() {
     select('#admin-preview').hidden = true;
     select('#new-gallery').hidden = !sample;
     select('#code-help').textContent = 'Aucun code attribué en démonstration.';
+    select('#share').hidden = !sample;
+    select('#share-url').value = 'https://exemple.invalid/galerie/illustration';
+    select('#share-hint').textContent = 'Dans une galerie active, copiez le lien client puis transmettez le code séparément.';
+    for (const id of ['copy-link', 'rotate']) select('#' + id).disabled = true;
     if (!sample) return;
     const [title, date, state, assets] = sample;
     editor.elements.title.value = title;
@@ -36,7 +40,7 @@ export function openDemo() {
     editor.elements.expires_at.value = (state === 'Expirée' ? '2025-11-02' : '2099-01-01') + 'T18:00';
     editor.elements.disabled.checked = state === 'Désactivée';
     select('#file-list').innerHTML = assets.map(name =>
-      '<li>' + name + '<button class="button danger" disabled>Supprimer</button></li>').join('');
+      '<li>' + (name.endsWith('.jpg') ? '<img width="76" src="/demo/' + name + '" alt="">' : '<video width="76" controls playsinline src="/demo/' + name + '"></video>') + name + '<button class="button danger" disabled>Supprimer</button></li>').join('');
     select('#preview-gallery').onclick = () => {
       const preview = select('#admin-preview');
       preview.innerHTML = '<h2>Aperçu de la galerie</h2><div class="demo-media">' + assets.map(name =>

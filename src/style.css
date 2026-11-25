@@ -203,3 +203,14 @@ select { appearance: none; padding-right: 2rem; background: var(--paper) url("da
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
+
+img.plate { object-position: var(--focus) !important; }
+.plate-print { padding: clamp(.4rem, 1vw, .9rem); padding-bottom: clamp(.7rem, 1.5vw, 1.35rem); background: #fcfbf8 !important; }
+.plate-line { border: 1px solid var(--stone); }
+.hero-copy { padding-inline-start: 0; }
+.hero-figure img { aspect-ratio: 3 / 4; max-height: 74vh; width: auto; margin-inline: auto; }
+.hero-figure figcaption { text-align: center; }
+.signature-grid .gallery-item:nth-child(3) img { aspect-ratio: 3 / 4; }
+.selection-photos img { aspect-ratio: auto; }
+.signature-heading { padding-top: 1rem; border-top: 1px solid var(--graphite); }
+@media (max-width:700px) { .hero-figure img { width: 100%; max-height: none; } .hero-actions { margin-bottom: 1rem; } }
