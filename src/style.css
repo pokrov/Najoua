@@ -219,3 +219,11 @@ img.plate { object-position: var(--focus) !important; }
 .brand-mark { display: block; width: clamp(7.5rem, 14vw, 11rem); height: 2.9rem; object-fit: contain; object-position: left center; }
 .header .brand-mark { width: clamp(8rem, 14vw, 11rem); }
 .footer .brand-mark, .delivery-header .brand-mark { width: 9rem; }
+
+.brand { display: inline-flex; align-items: center; justify-items: initial; }
+.brand-mark { display: block; width: clamp(8.5rem, 15vw, 12rem); height: auto; max-height: 3.4rem; object-fit: contain; object-position: left center; }
+.header .brand-mark { width: clamp(9rem, 15vw, 12rem); }
+.footer .brand-mark, .delivery-header .brand-mark { width: 10rem; }
+@media (max-width: 700px) {
+  .brand-mark, .header .brand-mark { width: 8.4rem; max-height: 2.6rem; }
+}
