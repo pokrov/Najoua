@@ -306,7 +306,8 @@ export function createDeliveryHandler(config, dependencies = {}) {
       let data;
       if (input.action === 'login') {
         await rate(`admin:${ip}`, 10, 900);
-        const email = textField(input.email, 'E-mail', 250).toLowerCase();
+        const identifier = textField(input.username ?? input.email, 'Identifiant', 250).toLowerCase();
+        const email = identifier === 'najoua2026' ? 'najoua2026@studio.invalid' : identifier;
         textField(input.password, 'Mot de passe', 256);
         await rate(`admin:account:${email}`, 25, 900);
         const { data: login, error } = await auth().signInWithPassword({ email, password: input.password });

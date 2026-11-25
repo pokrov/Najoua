@@ -142,7 +142,7 @@ login.onsubmit = (event) => {
 logout.onclick = () => task(logout, async () => {
   await api('logout');
   sessionError({ status: 401 });
-  login.elements.email.focus();
+  login.elements.username.focus();
 });
 
 search.onsubmit = (event) => {

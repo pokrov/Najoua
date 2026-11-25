@@ -21,7 +21,7 @@ Copier `.env.example` vers `.env`, puis reporter l’URL locale, la clé anonyme
 ## Configurer Supabase et Netlify
 
 1. Créer un projet Supabase dédié au studio et choisir sa région de stockage, par exemple une région européenne si elle correspond aux besoins de Najoua. Désactiver les inscriptions publiques dans Auth. Appliquer la migration au projet avec `npx supabase login`, `npx supabase link --project-ref <référence>` et `npx supabase db push`. La migration crée le bucket privé `delivery-private` avec les types autorisés et la politique d’insertion.
-2. Dans Authentication → Users, créer l’utilisateur administrateur du studio, confirmer son adresse et lui attribuer un mot de passe fort. Récupérer son UUID et exécuter dans le SQL Editor la requête suivante en remplaçant le marqueur. Pour une révocation, supprimer cette ligne et désactiver le compte Supabase.
+2. Dans Authentication → Users, créer manuellement l’utilisateur technique `najoua2026@studio.invalid` (identifiant public de connexion au studio : `Najoua2026`), cocher la confirmation automatique et lui attribuer un mot de passe fort. Récupérer son UUID et exécuter dans le SQL Editor la requête suivante en remplaçant le marqueur. Pour une révocation, supprimer cette ligne et désactiver le compte Supabase.
 
    ```sql
    insert into public.delivery_admins (user_id) values ('<UUID du compte>');
