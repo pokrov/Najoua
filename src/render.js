@@ -16,7 +16,7 @@ function image(key, sizes, eager = false) {
 
 function brand(prefix) {
   return `<a class="brand" href="${prefix}#accueil">
-    <img class="brand-mark" src="/najoua-monogram-small.png" srcset="/najoua-monogram-small.png 1x, /najoua-monogram.png 2x" alt="">
+    <img class="brand-mark" src="/najoua-signature-small.png" srcset="/najoua-signature-small.png 1x, /najoua-signature.png 2x" alt="">
     <span class="sr-only">${escape(site.firstName)} ${escape(site.lastName)} — ${escape(site.role)}</span>
   </a>`;
 }
